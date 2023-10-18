@@ -12,7 +12,9 @@ function keys() {
         elif [[ $key == 171 ]]; then
             kill -0 "$(cat $song_pid_file)" &> /dev/null && kill $(cat $song_pid_file)
             echo "Skipped"
-        fi;
+        elif [[ $key == 174 ]]; then
+            kill "$(cat $main_pid_file)"
+        fi; 
     done;
 }
 

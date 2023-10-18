@@ -8,6 +8,8 @@ cleanup() {
         kill $pid 2> /dev/null
     done
 
+    rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file"
+
     exit 0
 }
 
