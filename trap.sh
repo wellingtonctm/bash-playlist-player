@@ -1,16 +1,27 @@
 cleanup() {
     echo "Cleaning up and exiting..."
-    kill -0 "$(cat $song_pid_file)" &> /dev/null && kill $(cat $song_pid_file)
+
+    if [[ -f $song_pid_file ]] && kill -0 "$(cat $song_pid_file)" &> /dev/null; then
+        kill $(cat $song_pid_file)
+    fi
     
-    keys_pids=( $(cat $keys_pid_file) )
+    if [[ -f $keys_pid_file && "$(cat $keys_pid_file)" != "" ]]; then
+        keys_pids=( $(cat $keys_pid_file) )
 
-    for pid in ${keys_pids[@]}; do
-        kill $pid 2> /dev/null
-    done
+        for pid in ${keys_pids[@]}; do
+            kill $pid &> /dev/null
+        done
+    fi
 
-    rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file"
+    rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file" &> /dev/null
+
+    if [[ $notification_id == "" ]]; then
+        notification_id=0
+    fi
+
+    notification_id=$(notify-send -h int:transient:1 -p -r $notification_id -i 'mpv' "Bash Playlist Player" "Stopped")
 
     exit 0
 }
 
-trap cleanup EXIT
+trap cleanup EXIT HUP

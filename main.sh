@@ -1,23 +1,25 @@
 #!/bin/bash
 
-main_pid_file='main.pid'
+base_dir=$(dirname "$(readlink -f "$(which "$0")")")
+
+main_pid_file="$base_dir/main.pid"
 
 if [[ -f $main_pid_file ]] && kill -0 $(cat $main_pid_file) &> /dev/null; then
     echo "Já existe uma instância em execução ($(cat $main_pid_file))."
     exit 1
 fi
 
-echo $$ > $main_pid_file
+song_info_file="$base_dir/song.info"
+song_pid_file="$base_dir/song.pid"
+keys_pid_file="$base_dir/keys.pid"
 
-playlist_url="https://music.youtube.com/playlist?list=PLvNMtvKKQEsU65X5LFdvvia9h7QfqE9XI"
+. trap.sh
+
+echo $$ > $main_pid_file
 
 if [[ $1 != "" ]]; then
     playlist_url="$1"
 fi
-
-song_info_file="song.info"
-song_pid_file='song.pid'
-keys_pid_file='keys.pid'
 
 . songs.sh
 . play.sh
