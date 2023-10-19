@@ -1,11 +1,7 @@
-if [[ $playlist_url == "" ]]; then
-    playlist_url=$(zenity --entry --title "Bash Playlist Player" --text "Playlist URL:")
-fi
-
-songs=( $(yt-dlp --skip-download --get-id --flat-playlist $playlist_url) )
+songs=( $(yt-dlp --get-id --flat-playlist $playlist_url) )
 
 if [[ $? != 0 ]]; then
-    zenity --error --title "Bash Playlist Player" --text "There was an error while processing the URL\!" &> /dev/null & disown
+    zenity --error --title "$app_title" --text "There was an error while processing the URL\!" &> /dev/null & disown
     exit 1
 fi
 

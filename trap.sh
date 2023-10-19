@@ -19,7 +19,7 @@ cleanup() {
         notification_id=0
     fi
 
-    notification_id=$(notify-send -h int:transient:1 -p -r $notification_id -i 'mpv' "Bash Playlist Player" "Stopped")
+    notification_id=$(notify-send -h int:transient:1 -p -r $notification_id -i 'mpv' "$app_title" "Stopped")
 
     exit 0
 }

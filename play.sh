@@ -15,7 +15,7 @@ function play_song() {
     mpv --no-terminal --no-video --no-cache $youtube_link &
     song_pid=$! && echo $song_pid > $song_pid_file
 
-    notification_id=$(notify-send -p -r $notification_id -i 'mpv' "Bash Playlist Player" "$title")
+    notification_id=$(notify-send -p -r $notification_id -i 'mpv' "$app_title" "$title")
 
     while kill -0 "$song_pid" &> /dev/null; do
         sleep 1s;
