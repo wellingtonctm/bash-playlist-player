@@ -6,7 +6,7 @@ base_dir=$(dirname "$(readlink -f "$(which "$0")")")
 main_pid_file="$base_dir/main.pid"
 
 if [[ -f $main_pid_file ]] && kill -0 $(cat $main_pid_file) &> /dev/null; then
-    echo "Já existe uma instância em execução ($(cat $main_pid_file))."
+    echo "There is an instance already running ($(cat $main_pid_file))."
     exit 1
 fi
 

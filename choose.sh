@@ -17,27 +17,27 @@ function choose-playlist() {
         
         case $option in
             '0')
-                info=$(zenity --forms --title "$app_title" --text "Playlist" --add-entry "NOME" --add-entry "URL")
-                        IFS='|' read nome url <<< "$info"
+                info=$(zenity --forms --title "$app_title" --text "Playlist" --add-entry "Name" --add-entry "URL")
+                        IFS='|' read name url <<< "$info"
                         id=$(grep -Po "^(https://)?(www.)?(music.)?(youtube.com/playlist\?list=)?\K[A-Za-z0-9_-]+" <<< "$url")
                 
-                if [[ $nome == "" ]]; then
-                                    zenity --error --title "$app_title" --text "Nome inválido!"
+                if [[ $name == "" ]]; then
+                                    zenity --error --title "$app_title" --text "Invalid name!"
                                     continue
                             fi
 
                         if [[ $id == "" ]] || ! yt-dlp --flat-playlist --playlist-end 1 "https://www.youtube.com/playlist?list=$id" &> /dev/null; then
-                                zenity --error --title "$app_title" --text "Playlist inválida"
+                                zenity --error --title "$app_title" --text "Invalid playlist!"
                                 continue
                         fi
                         
                 sed -i "s/^TRUE|/FALSE|/g" $options_file
-                        sed -i "1s/^/TRUE|$id|$nome\n/" $options_file
+                        sed -i "1s/^/TRUE|$id|$name\n/" $options_file
                 ;;
             '1')
                 IFS=$'|\n'
                             value=$(zenity --list --radiolist \
-                                    --title "$app_title" --text "Selecione uma playlist:" \
+                                    --title "$app_title" --text "Choose a playlist:" \
                                     --hide-header \
                                     --column "" --column "" --column "" \
                                     --hide-column 2 \
