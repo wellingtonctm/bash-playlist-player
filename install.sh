@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
 	exit $?;
 fi
 
+cd $(dirname $(readlink -f "$0")) &&
 mkdir -p /opt/bash-playlist-player/ &&
 cp main /opt/bash-playlist-player/ &&
 chown -R $(logname) /opt/bash-playlist-player/ &&

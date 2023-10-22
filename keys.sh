@@ -18,6 +18,8 @@ function keys() {
     done;
 }
 
-keys &
-keys_pid=$!
-pstree -p $keys_pid | grep -o '([0-9]\+)' | grep -o '[0-9]\+' > $keys_pid_file
+function start-keys() {
+    keys &
+    keys_pid=$!
+    pstree -p $keys_pid | grep -o '([0-9]\+)' | grep -o '[0-9]\+' > $keys_pid_file
+}

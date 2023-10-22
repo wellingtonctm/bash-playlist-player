@@ -10,34 +10,39 @@ if [[ -f $main_pid_file ]] && kill -0 $(cat $main_pid_file) &> /dev/null; then
     exit 1
 fi
 
+echo $$ > $main_pid_file
+
 options_file="$base_dir/options.conf"
 song_info_file="$base_dir/song.info"
 song_pid_file="$base_dir/song.pid"
 keys_pid_file="$base_dir/keys.pid"
+playlists_dir="$base_dir/.playlists"
+
+mkdir -p "$playlists_dir"
 
 . trap.sh
-
-echo $$ > $main_pid_file
-
+. songs.sh
+. shuffle.sh
+. play.sh
+. keys.sh
 . choose.sh
 
 if [[ $1 == "" ]]; then
-    playlist_url="$(choose-playlist)"
+    playlist_id="$(choose-playlist)"
 else
-    playlist_url="$1"
+    playlist_id="$1"
 fi
 
-if [[ $playlist_url == "" ]]; then
+if [[ $playlist_id == "" ]]; then
     exit 1
 fi
 
-. songs.sh
-. play.sh
-. keys.sh
-. trap.sh
+get-songs
+shuffle
+start-keys
 
-for song in "${songs[@]}"; do
-    play_song "$song"
+for index in "${!songs[@]}"; do
+    play_song "$index"
 done
 
 echo "All songs have been played."

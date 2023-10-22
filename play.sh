@@ -8,14 +8,11 @@ notification_id=0
 function play_song() {
     trap kill_song RETURN
 
-	video_info=$(yt-dlp -f 'bestaudio' --get-url --print "%(title)s - %(artist)s" "https://youtube.com/watch?v=$1")
-	IFS=$'\n' read -d '' title youtube_link <<< "$video_info"
-
-    echo "$title" | tee $song_info_file
-    mpv --no-terminal --no-video --no-cache $youtube_link &
+    echo -e "${songs[$1]}\n${channels[$1]}" | tee $song_info_file
+    mpv --no-terminal --no-video --no-cache ${urls[$1]} &
     song_pid=$! && echo $song_pid > $song_pid_file
 
-    notification_id=$(notify-send -p -r $notification_id -i 'mpv' "$app_title" "$title")
+    notification_id=$(notify-send -p -r $notification_id -i 'mpv' "$app_title" "${songs[$1]} - ${channels[$1]}")
 
     while kill -0 "$song_pid" &> /dev/null; do
         sleep 1s;

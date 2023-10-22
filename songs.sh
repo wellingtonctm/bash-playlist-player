@@ -1,13 +1,6 @@
-songs=( $(yt-dlp --get-id --flat-playlist $playlist_url) )
-
-if [[ $? != 0 ]]; then
-    zenity --error --title "$app_title" --text "There was an error while processing the URL\!" &> /dev/null & disown
-    exit 1
-fi
-
-for i in "${!songs[@]}"; do
-    j=$((RANDOM % (i+1)))
-    tmp="${songs[i]}"
-    songs[i]="${songs[j]}"
-    songs[j]="$tmp"
-done
+function get-songs() {
+    IFS=$'\n'
+    songs=( $(cat "$playlists_dir/$playlist_id" | sed -n '1~3p') )
+    channels=( $(cat "$playlists_dir/$playlist_id" | sed -n '2~3p') )
+    urls=( $(cat "$playlists_dir/$playlist_id" | sed -n '3~3p') )
+}
