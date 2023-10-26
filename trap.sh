@@ -14,13 +14,7 @@ cleanup() {
     fi
 
     rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file" &> /dev/null
-
-    if [[ $notification_id == "" ]]; then
-        notification_id=0
-    fi
-
-    notification_id=$(notify-send -h int:transient:1 -p -r $notification_id -i 'mpv' "$app_title" "Stopped")
-
+    notification_id=$(notify-send -h int:transient:1 -p -r ${notification_id:-0} -i 'mpv' "$app_title" "Stopped")
     exit 0
 }
 
