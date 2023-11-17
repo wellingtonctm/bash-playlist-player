@@ -13,8 +13,9 @@ cleanup() {
         done
     fi
 
-    rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file" &> /dev/null
-    notification_id=$(notify-send -h int:transient:1 -p -r ${notification_id:-0} -i 'mpv' "$app_title" "Stopped")
+    notification_id=$(cat $notification_file 2> /dev/null)
+    rm "$main_pid_file" "$song_info_file" "$song_pid_file" "$keys_pid_file" "$notification_file" &> /dev/null
+    notify-send -h int:transient:1 -p -r ${notification_id:-0} -i 'mpv' "$app_title" "Stopped"
     exit 0
 }
 

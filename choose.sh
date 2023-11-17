@@ -1,12 +1,14 @@
 function send-message() {
 	local text="$1"
-	notification_id=$(notify-send -p -r ${notification_id:-0} -i 'mpv' "$app_title" "$text")
+	notification_id=$(cat $notification_file 2> /dev/null)
+	notify-send -p -r ${notification_id:-0} -i 'mpv' "$app_title" "$text" > $notification_file
 	sleep 1s
 }
 
 function send-error() {
 	local text="$1"
-	notification_id=$(notify-send -h int:transient:1 -p -r ${notification_id:-0} -i 'error' "$app_title" "$text")
+	notification_id=$(cat $notification_file 2> /dev/null)
+	notify-send -h int:transient:1 -p -r ${notification_id:-0} -i 'error' "$app_title" "$text" > $notification_file
 	sleep 1s
 }
 

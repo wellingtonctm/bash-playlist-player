@@ -27,6 +27,7 @@ song_info_file="$conf_dir/song.info"
 song_pid_file="$pids_dir/song.pid"
 keys_pid_file="$pids_dir/keys.pid"
 playlists_dir="$conf_dir/.playlists"
+notification_file="$pids_dir/notify.pid"
 
 mkdir -p "$playlists_dir"
 
