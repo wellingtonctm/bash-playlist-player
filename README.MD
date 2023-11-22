@@ -19,7 +19,7 @@ Para que seja possível utilizar esta aplicação, você deve instalar as seguin
 Para fazer a instalação da aplicação no sistema para todos os usuários, basta executar o seguinte comando:
 
 ```bash
-./build && cd build && sudo ./install
+./build.sh && cd build && sudo ./install
 ```
 
 
