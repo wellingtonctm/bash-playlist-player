@@ -7,7 +7,7 @@ function play_song() {
     trap kill_song RETURN
 
     echo -e "${songs[$1]}\n${channels[$1]}" | tee $song_info_file
-    mpv --no-terminal --no-video --no-cache ${urls[$1]} &
+    mpv --no-terminal --no-video --cache-secs=60 ${urls[$1]} &
     song_pid=$! && echo $song_pid > $song_pid_file
 
     send-message "${songs[$1]} - ${channels[$1]}"
